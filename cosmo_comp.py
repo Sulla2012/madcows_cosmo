@@ -9,9 +9,13 @@ from astropy.cosmology import Planck15
 def log_int(function, x0, xf, nstep = 1000):
     integral = 0
     domain = np.logspace(x0, xf, nstep)
+    domain = np.log10(domain)
     for i in range(len(domain)-1): 
-        mtemp = (domain[i+1]-domain[i])/2
-        integral += function(domain[i])*(np.log(domain[i+1])-np.log(domain[i]))
+        #print(domain[i])
+        #mtemp = (domain[i+1]-domain[i])/2
+        #print(function(10**domain[i]))
+        #print(mass_function.massFunction(10**domain[i], 0.15, mdef = '200m', model = 'tinker08', q_out = 'dndlnM'))
+        integral += function(10**domain[i])*(domain[i+1] - domain[i])
     return integral
 
 def zint(mass, zmin, zmax, nstep = 1000):

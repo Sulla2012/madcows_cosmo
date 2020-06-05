@@ -25,7 +25,7 @@ def zint(mass, zmin, zmax, nstep = 1000):
     
     if mass > 100:
         #Shitty check if mass was given as just the exponant
-        mass = np.log(mass)
+        mass = np.log10(mass)
 
     for i in range(len(z)-1):
         ztemp = (z[i+1]+z[i])/2

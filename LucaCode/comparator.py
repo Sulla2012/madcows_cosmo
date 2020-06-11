@@ -29,7 +29,7 @@ def zint(mass, zmin, zmax, nstep = 1000):
     if mass > 100:
         #Shitty check if mass was given as just the exponant
         mass = np.log10(mass)
-        print(mass)
+        #print(mass)
     for i in range(len(z)-1):
         ztemp = (z[i+1]+z[i])/2
         #print(i)
@@ -57,11 +57,26 @@ z_step = 0.25
 
 mass_cut = 4
 
-carma_z = mad_dict['carma'][0][np.where(mad_dict['carma'][1]>4)]
+carma_z = mad_dict['carma'][0][np.where(mad_dict['carma'][1]>mass_cut)]
+print(mad_dict['carma'][1])
 print(carma_z)
+
+datum = []
+theorys = []
 
 for z in np.arange(0.75, 1.75, z_step):
     data = arr_count(carma_z, z, z + z_step)
+    datum.append(data)
     print("Data: {}".format(data))
-    theory = zint(mass_cut*10**14, z, z + z_step)
+    theory = 0.6*zint(mass_cut*10**14, z, z + z_step)
+    theorys.append(theory)
     print("Theory: {}".format(theory))
+
+zs = [0.875, 1.125, 1.375, 1.625]
+
+plt.scatter(zs, datum, label = 'Data')
+plt.scatter(zs, theorys, label = 'Theory')
+plt.title('Carma scaling relation for M_500 > 4*10^14 vs theory assuming 60% sky coverage')
+plt.legend()
+plt.savefig('madcows_v_cosmo.png')
+plt.show()

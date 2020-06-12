@@ -81,8 +81,10 @@ if carma:
 
 	plt.scatter(zs, datum, label = 'Data')
 	plt.scatter(zs, theorys, label = 'Theory')
-	plt.title('Carma scaling relation for M_500 > 4*10^14 vs theory assuming 60% sky coverage')
+	plt.title('Carma scaling relation for M_500 > 4*10^14 \n vs theory assuming 60% sky coverage')
 	plt.legend()
+	plt.xlabel('z')
+	plt.ylabel('Cluster Counts')
 	plt.savefig('madcows_v_cosmo.png')
 	plt.show()
 
@@ -103,7 +105,9 @@ if total:
 	
 	plt.scatter(zs, datum, label = 'Data')
 	plt.scatter(zs, theorys, label = 'Theory')
-	plt.title('Carma Total scaling relation for M_500 > {}*10^14 vs theory assuming 60% sky coverage'.format(mass_cut))
+	plt.title('Total scaling relation for M_500 > {}*10^14 \n vs theory assuming 60% sky coverage'.format(mass_cut))
 	plt.legend()
+	plt.xlabel('z')
+	plt.ylabel('Cluster Counts')
 	plt.savefig('madcows_total_v_cosmo.png')
 	plt.show()

@@ -55,28 +55,55 @@ mad_dict = pk.load(open("mad_dict.p", 'rb'))
 
 z_step = 0.25
 
-mass_cut = 4
+mass_cut = 2
 
 carma_z = mad_dict['carma'][0][np.where(mad_dict['carma'][1]>mass_cut)]
-print(mad_dict['carma'][1])
-print(carma_z)
+#print(mad_dict['carma'][1])
+#print(carma_z)
+
+#Choose which comaprisons to do
+carma = False
+total = True
+
+if carma:
+	datum = []
+	theorys = []
+
+	for z in np.arange(0.75, 1.75, z_step):
+		data = arr_count(carma_z, z, z + z_step)
+		datum.append(data)
+		print("Data: {}".format(data))
+		theory = 0.6*zint(mass_cut*10**14, z, z + z_step)
+		theorys.append(theory)
+		print("Theory: {}".format(theory))
+
+	zs = [0.875, 1.125, 1.375, 1.625]
+
+	plt.scatter(zs, datum, label = 'Data')
+	plt.scatter(zs, theorys, label = 'Theory')
+	plt.title('Carma scaling relation for M_500 > 4*10^14 vs theory assuming 60% sky coverage')
+	plt.legend()
+	plt.savefig('madcows_v_cosmo.png')
+	plt.show()
+
+total_z = mad_dict['total'][0][np.where(mad_dict['total'][1]>mass_cut)] 
 
 datum = []
 theorys = []
+if total:
+	for z in np.arange(0.75, 1.75, z_step):
+		data = arr_count(total_z, z, z + z_step)
+		datum.append(data)
+		print("Data: {}".format(data))
+		theory = 0.6*zint(mass_cut*10**14, z, z + z_step)
+		theorys.append(theory)
+		print("Theory: {}".format(theory))
 
-for z in np.arange(0.75, 1.75, z_step):
-    data = arr_count(carma_z, z, z + z_step)
-    datum.append(data)
-    print("Data: {}".format(data))
-    theory = 0.6*zint(mass_cut*10**14, z, z + z_step)
-    theorys.append(theory)
-    print("Theory: {}".format(theory))
-
-zs = [0.875, 1.125, 1.375, 1.625]
-
-plt.scatter(zs, datum, label = 'Data')
-plt.scatter(zs, theorys, label = 'Theory')
-plt.title('Carma scaling relation for M_500 > 4*10^14 vs theory assuming 60% sky coverage')
-plt.legend()
-plt.savefig('madcows_v_cosmo.png')
-plt.show()
+	zs = [0.875, 1.125, 1.375, 1.625]
+	
+	plt.scatter(zs, datum, label = 'Data')
+	plt.scatter(zs, theorys, label = 'Theory')
+	plt.title('Carma Total scaling relation for M_500 > {}*10^14 vs theory assuming 60% sky coverage'.format(mass_cut))
+	plt.legend()
+	plt.savefig('madcows_total_v_cosmo.png')
+	plt.show()
